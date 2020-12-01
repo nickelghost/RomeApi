@@ -4,6 +4,7 @@ using RomeApi.Models;
 
 namespace RomeApi.Profiles
 {
+    // TODO: Actually name it CategoryGroupsProfile 🤦
     public class CategoriesProfile : Profile
     {
         public CategoriesProfile()
