@@ -4,6 +4,8 @@ using RomeApi.Models;
 
 namespace RomeApi.Data
 {
+    // TODO: Split this into resource-based repos
+    // TODO: Make those async
     public interface IRomeApiRepo
     {
         void SaveChanges();

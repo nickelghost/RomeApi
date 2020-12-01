@@ -12,6 +12,7 @@ using Xunit;
 
 namespace RomeApi.Testing
 {
+    // TODO: Make those mapping tests instead of controller tests
     public class CategoryGroupsControllerGetTests
     {
         private readonly List<CategoryGroupReadDto> _data;

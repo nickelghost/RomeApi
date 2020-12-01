@@ -8,6 +8,8 @@ using RomeApi.Models;
 
 namespace RomeApi.Controllers
 {
+    // TODO: Make the actions return ActionResults and be async
+    // TODO: Add complete validation
     [ApiController]
     [Route("category-groups")]
     public class CategoryGroupsController
