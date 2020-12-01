@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RomeApi.Models;
 
@@ -15,40 +16,40 @@ namespace RomeApi.Data
             _context = context;
         }
 
-        public void SaveChanges()
+        public Task SaveChanges()
         {
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public IEnumerable<CategoryGroup> GetAllCategoryGroups()
+        public async Task<IEnumerable<CategoryGroup>> GetAllCategoryGroups()
         {
-            var cgs = _context.CategoryGroups
+            var cgs = await _context.CategoryGroups
                 .OrderBy(cg => cg.Rank)
                 .Include(cg => cg.Categories)
-                .ToList();
+                .ToListAsync();
             return cgs;
         }
 
-        public CategoryGroup GetCategoryGroup(Guid id)
+        public async Task<CategoryGroup> GetCategoryGroup(Guid id)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
-            var cg = _context.CategoryGroups.Find(id);
+            var cg = await _context.CategoryGroups.FindAsync(id);
             return cg;
         }
 
-        public void CreateCategoryGroup(CategoryGroup categoryGroup)
+        public async Task CreateCategoryGroup(CategoryGroup categoryGroup)
         {
             if (categoryGroup == null) throw new ArgumentNullException(nameof(categoryGroup));
             try
             {
-                var maxRank = _context.CategoryGroups.Max(cg => cg.Rank);
+                var maxRank = await _context.CategoryGroups.MaxAsync(cg => cg.Rank);
                 categoryGroup.Rank = maxRank + 1;
             }
             catch (InvalidOperationException)
             {
                 categoryGroup.Rank = 1;
             }
-            _context.CategoryGroups.Add(categoryGroup);
+            await _context.CategoryGroups.AddAsync(categoryGroup);
         }
 
         public void DeleteCategoryGroup(CategoryGroup cg)

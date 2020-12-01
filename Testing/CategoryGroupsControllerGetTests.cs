@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using RomeApi.Controllers;
 using RomeApi.Data;
 using RomeApi.Dtos;
@@ -15,9 +16,7 @@ namespace RomeApi.Testing
     // TODO: Make those mapping tests instead of controller tests
     public class CategoryGroupsControllerGetTests
     {
-        private readonly List<CategoryGroupReadDto> _data;
-
-        private static IEnumerable<CategoryGroup> GetAllCategoryGroupsMock()
+        private static async Task<IEnumerable<CategoryGroup>> GetAllCategoryGroupsMock()
         {
             var now = DateTimeOffset.Now;
             var cg1Id = Guid.NewGuid();
@@ -51,50 +50,55 @@ namespace RomeApi.Testing
             return cgs;
         }
 
-        public CategoryGroupsControllerGetTests()
+        private async Task<List<CategoryGroupReadDto>> GetData()
         {
             var mockRepo = new Mock<IRomeApiRepo>();
             mockRepo.Setup(repo => repo.GetAllCategoryGroups())
                 .Returns(GetAllCategoryGroupsMock());
             var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoriesProfile>(); }));
             var controller = new CategoryGroupsController(mockRepo.Object, mapper);
-            var res = controller.Get();
-            _data = res.ToList();
+            var res = await controller.Get();
+            return res.ToList();
         }
 
         [Fact]
-        public void ShouldIncludeNames()
+        public async Task ShouldIncludeNames()
         {
-            Assert.Equal("Category group one", _data[0].Name);
-            Assert.Equal("Category group two", _data[1].Name);
+            var data = await GetData();
+            Assert.Equal("Category group one", data[0].Name);
+            Assert.Equal("Category group two", data[1].Name);
         }
 
         [Fact]
-        public void ShouldIncludeNullableDescriptions()
+        public async Task ShouldIncludeNullableDescriptions()
         {
-            Assert.Equal("Test Description", _data[0].Description);
-            Assert.Null(_data[1].Description);
+            var data = await GetData();
+            Assert.Equal("Test Description", data[0].Description);
+            Assert.Null(data[1].Description);
         }
         
         [Fact]
-        public void ShouldIncludeRanks()
+        public async Task ShouldIncludeRanks()
         {
-            Assert.Equal(1, _data[0].Rank);
-            Assert.Equal(2, _data[1].Rank);
+            var data = await GetData();
+            Assert.Equal(1, data[0].Rank);
+            Assert.Equal(2, data[1].Rank);
         }
 
         [Fact]
-        public void ShouldIncludeCategories()
+        public async Task ShouldIncludeCategories()
         {
-            Assert.NotEmpty(_data[0].Categories);
+            var data = await GetData();
+            Assert.NotEmpty(data[0].Categories);
         }
 
         [Fact]
-        public void ShouldReturnDates()
+        public async Task ShouldReturnDates()
         {
+            var data = await GetData();
             var currentYear = DateTimeOffset.Now.Year;
-            Assert.Equal(currentYear, _data[0].CreatedAt.Year);
-            Assert.Equal(currentYear, _data[0].UpdatedAt.Year);
+            Assert.Equal(currentYear, data[0].CreatedAt.Year);
+            Assert.Equal(currentYear, data[0].UpdatedAt.Year);
         }
     }
 }
