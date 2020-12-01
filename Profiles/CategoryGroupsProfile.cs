@@ -4,10 +4,9 @@ using RomeApi.Models;
 
 namespace RomeApi.Profiles
 {
-    // TODO: Actually name it CategoryGroupsProfile 🤦
-    public class CategoriesProfile : Profile
+    public class CategoryGroupsProfile : Profile
     {
-        public CategoriesProfile()
+        public CategoryGroupsProfile()
         {
             CreateMap<CategoryGroup, CategoryGroupReadDto>();
             CreateMap<Category, CategoryGroupCategoryReadDto>();

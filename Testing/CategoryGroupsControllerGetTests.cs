@@ -55,7 +55,7 @@ namespace RomeApi.Testing
             var mockRepo = new Mock<IRomeApiRepo>();
             mockRepo.Setup(repo => repo.GetAllCategoryGroups())
                 .Returns(GetAllCategoryGroupsMock());
-            var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoriesProfile>(); }));
+            var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoryGroupsProfile>(); }));
             var controller = new CategoryGroupsController(mockRepo.Object, mapper);
             var res = await controller.Get();
             return res.ToList();
@@ -76,7 +76,7 @@ namespace RomeApi.Testing
             Assert.Equal("Test Description", data[0].Description);
             Assert.Null(data[1].Description);
         }
-        
+
         [Fact]
         public async Task ShouldIncludeRanks()
         {
