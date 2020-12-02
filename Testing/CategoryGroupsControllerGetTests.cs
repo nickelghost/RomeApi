@@ -50,7 +50,7 @@ namespace RomeApi.Testing
             return cgs;
         }
 
-        private async Task<List<CategoryGroupReadDto>> GetData()
+        private static async Task<List<CategoryGroupReadDto>> GetData()
         {
             var mockRepo = new Mock<IRomeApiRepo>();
             mockRepo.Setup(repo => repo.GetAllCategoryGroups())
@@ -58,7 +58,7 @@ namespace RomeApi.Testing
             var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoryGroupsProfile>(); }));
             var controller = new CategoryGroupsController(mockRepo.Object, mapper);
             var res = await controller.Get();
-            return res.ToList();
+            return res.Value;
         }
 
         [Fact]
