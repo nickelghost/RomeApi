@@ -11,7 +11,6 @@ using RomeApi.Models;
 
 namespace RomeApi.Controllers
 {
-    // TODO: Make the actions return ActionResults
     // TODO: Add complete validation
     [ApiController]
     [Route("category-groups")]
