@@ -1,22 +1,24 @@
-using AutoMapper;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using RomeApi.Controllers;
-using RomeApi.Data;
+using AutoMapper;
 using RomeApi.Dtos;
 using RomeApi.Models;
 using RomeApi.Profiles;
 using Xunit;
 
-namespace RomeApi.Testing
+namespace RomeApi.Testing.Profiles
 {
-    // TODO: Make those mapping tests instead of controller tests
-    public class CategoryGroupsControllerGetTests
+    public class CategoryGroupsProfileTest
     {
-        private static async Task<IEnumerable<CategoryGroup>> GetAllCategoryGroupsMock()
+        private static async Task<List<CategoryGroupReadDto>> GetData()
+        {
+            var cgs = await GetCategoryGroups();
+            var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoryGroupsProfile>(); }));
+            return mapper.Map<List<CategoryGroupReadDto>>(cgs);
+        }
+
+        private static async Task<IEnumerable<CategoryGroup>> GetCategoryGroups()
         {
             var now = DateTimeOffset.Now;
             var cg1Id = Guid.NewGuid();
@@ -48,17 +50,6 @@ namespace RomeApi.Testing
             };
             var cgs = new List<CategoryGroup> {cg1, cg2};
             return cgs;
-        }
-
-        private static async Task<List<CategoryGroupReadDto>> GetData()
-        {
-            var mockRepo = new Mock<IRomeApiRepo>();
-            mockRepo.Setup(repo => repo.GetAllCategoryGroups())
-                .Returns(GetAllCategoryGroupsMock());
-            var mapper = new Mapper(new MapperConfiguration(cfg => { cfg.AddProfile<CategoryGroupsProfile>(); }));
-            var controller = new CategoryGroupsController(mockRepo.Object, mapper);
-            var res = await controller.Get();
-            return res.Value;
         }
 
         [Fact]
