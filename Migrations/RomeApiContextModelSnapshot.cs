@@ -69,7 +69,6 @@ namespace RomeApi.Migrations
                         .HasDatabaseName("ix_categories_parent_category_id");
 
                     b.HasIndex("Rank")
-                        .IsUnique()
                         .HasDatabaseName("ix_categories_rank");
 
                     b.ToTable("categories");

@@ -25,7 +25,7 @@ namespace RomeApi.Data
             });
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.HasIndex(e => e.Rank).IsUnique();
+                entity.HasIndex(e => e.Rank);
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
                 entity.Property(e => e.UpdatedAt).HasDefaultValueSql("now()");
             });
