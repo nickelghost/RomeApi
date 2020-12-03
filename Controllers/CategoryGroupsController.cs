@@ -28,7 +28,7 @@ namespace RomeApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<CategoryGroupReadDto>>> Get()
+        public async Task<ActionResult<List<CategoryGroupReadDto>>> GetAll()
         {
             var cgs = await _repo.GetAllCategoryGroups();
             var res = _mapper.Map<List<CategoryGroupReadDto>>(cgs);
