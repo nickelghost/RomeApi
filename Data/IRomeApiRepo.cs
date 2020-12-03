@@ -13,5 +13,8 @@ namespace RomeApi.Data
         Task<CategoryGroup> GetCategoryGroup(Guid id);
         Task CreateCategoryGroup(CategoryGroup categoryGroup);
         void DeleteCategoryGroup(CategoryGroup categoryGroup);
+        Task<Category> GetCategory(Guid id, bool includeChildren = false, bool includeTasks = false);
+        Task CreateCategory(Category category);
+        void DeleteCategory(Category category);
     }
 }
