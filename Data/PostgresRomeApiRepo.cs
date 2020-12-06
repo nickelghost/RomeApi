@@ -32,7 +32,6 @@ namespace RomeApi.Data
 
         public async Task<CategoryGroup> GetCategoryGroup(Guid id)
         {
-            if (id == null) throw new ArgumentNullException(nameof(id));
             var cg = await _context.CategoryGroups.FindAsync(id);
             return cg;
         }
@@ -59,7 +58,6 @@ namespace RomeApi.Data
 
         public async Task<Category> GetCategory(Guid id, bool includeChildren = false, bool includeTasks = false)
         {
-            if (id == null) throw new ArgumentNullException(nameof(id));
             var builder = _context.Categories;
             if (includeChildren) builder.Include(c => c.ChildCategories);
             if (includeTasks) builder.Include(c => c.Topics);
