@@ -49,7 +49,7 @@ namespace RomeApi.Testing.Profiles
                 UpdatedAt = now,
             };
             var cgs = new List<CategoryGroup> {cg1, cg2};
-            return cgs;
+            return await Task.FromResult(cgs);
         }
 
         [Fact]
